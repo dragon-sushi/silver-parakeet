@@ -143,8 +143,8 @@ function updateObstacles() {
       score += 10
       scoreElement.textContent = score
 
-      // Level up every 50 points
-      const newLevel = Math.floor(score / 50) + 1
+      // Level up every 150 points
+      const newLevel = Math.floor(score / 150) + 1
       if (newLevel > level) {
         level = newLevel
         levelElement.textContent = level
@@ -185,9 +185,115 @@ function gameOver() {
 }
 
 function drawPlayer() {
-  // Draw player as a dragon emoji
-  ctx.font = '40px Arial'
-  ctx.fillText('🐉', player.x, player.y + player.height)
+  // Draw a custom dragon
+  const x = player.x + player.width / 2
+  const y = player.y + player.height / 2
+
+  ctx.save()
+
+  // Dragon body (gradient)
+  const bodyGradient = ctx.createLinearGradient(x - 15, y - 10, x + 15, y + 10)
+  bodyGradient.addColorStop(0, '#ff6b6b')
+  bodyGradient.addColorStop(0.5, '#ee5a6f')
+  bodyGradient.addColorStop(1, '#c44569')
+
+  // Wings
+  ctx.fillStyle = 'rgba(139, 69, 19, 0.6)'
+  ctx.beginPath()
+  ctx.ellipse(x - 12, y - 5, 10, 15, -Math.PI / 4, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.ellipse(x + 12, y - 5, 10, 15, Math.PI / 4, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // Main body
+  ctx.fillStyle = bodyGradient
+  ctx.beginPath()
+  ctx.ellipse(x, y, 15, 12, 0, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // Body outline
+  ctx.strokeStyle = '#a83241'
+  ctx.lineWidth = 2
+  ctx.stroke()
+
+  // Head
+  const headGradient = ctx.createLinearGradient(x - 10, y - 15, x + 10, y - 5)
+  headGradient.addColorStop(0, '#ff7675')
+  headGradient.addColorStop(1, '#d63031')
+  ctx.fillStyle = headGradient
+  ctx.beginPath()
+  ctx.ellipse(x, y - 10, 10, 10, 0, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.strokeStyle = '#a83241'
+  ctx.lineWidth = 1.5
+  ctx.stroke()
+
+  // Horns
+  ctx.fillStyle = '#ffd700'
+  ctx.beginPath()
+  ctx.moveTo(x - 6, y - 15)
+  ctx.lineTo(x - 4, y - 22)
+  ctx.lineTo(x - 2, y - 15)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.moveTo(x + 6, y - 15)
+  ctx.lineTo(x + 4, y - 22)
+  ctx.lineTo(x + 2, y - 15)
+  ctx.fill()
+
+  // Eyes
+  ctx.fillStyle = '#fff'
+  ctx.beginPath()
+  ctx.arc(x - 4, y - 11, 2.5, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(x + 4, y - 11, 2.5, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // Pupils
+  ctx.fillStyle = '#000'
+  ctx.beginPath()
+  ctx.arc(x - 4, y - 11, 1.5, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(x + 4, y - 11, 1.5, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // Nostrils
+  ctx.fillStyle = '#a83241'
+  ctx.beginPath()
+  ctx.arc(x - 3, y - 7, 1, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(x + 3, y - 7, 1, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // Tail
+  ctx.strokeStyle = '#c44569'
+  ctx.lineWidth = 3
+  ctx.beginPath()
+  ctx.moveTo(x, y + 10)
+  ctx.quadraticCurveTo(x - 5, y + 18, x - 8, y + 25)
+  ctx.stroke()
+
+  // Tail tip
+  ctx.fillStyle = '#ffd700'
+  ctx.beginPath()
+  ctx.moveTo(x - 8, y + 25)
+  ctx.lineTo(x - 10, y + 28)
+  ctx.lineTo(x - 6, y + 27)
+  ctx.fill()
+
+  // Scale details on body
+  ctx.fillStyle = 'rgba(255, 215, 0, 0.3)'
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath()
+    ctx.arc(x - 8 + i * 8, y + 2, 2, 0, Math.PI)
+    ctx.fill()
+  }
+
+  ctx.restore()
 }
 
 function drawObstacles() {
