@@ -221,10 +221,42 @@ function clearCanvas() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 
-function drawForestScenery() {
-  // Only draw forest scenery for Level 1 (pine forest)
-  if (level !== 1) return
+function drawLevelScenery() {
+  switch(level) {
+    case 1: // Pine Forest
+      drawPineForest()
+      break
+    case 2: // Tropical Beach
+      drawTropicalBeach()
+      break
+    case 3: // Autumn Park
+      drawAutumnPark()
+      break
+    case 4: // Winter Night
+      drawWinterScene()
+      break
+    case 5: // Desert
+      drawDesert()
+      break
+    case 6: // Bamboo Garden
+      drawBambooGarden()
+      break
+    case 7: // Tropical Flower Garden
+      drawTropicalGarden()
+      break
+    case 8: // Sunflower Field
+      drawSunflowerField()
+      break
+    case 9: // Rose Garden
+      drawRoseGarden()
+      break
+    default: // Level 10+ Mushroom Forest
+      drawMushroomForest()
+      break
+  }
+}
 
+function drawPineForest() {
   // Draw gradient sky
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
   gradient.addColorStop(0, '#0d2818')
@@ -251,7 +283,6 @@ function drawForestScenery() {
     }
   })
 
-  // Reset opacity
   ctx.globalAlpha = 1.0
 
   // Draw ground/forest floor
@@ -262,11 +293,257 @@ function drawForestScenery() {
   ctx.fillRect(0, canvas.height - 80, canvas.width, 80)
 }
 
+function drawTropicalBeach() {
+  // Sky gradient (bright blue)
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 0.6)
+  skyGradient.addColorStop(0, '#87ceeb')
+  skyGradient.addColorStop(1, '#4facfe')
+  ctx.fillStyle = skyGradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height * 0.6)
+
+  // Ocean
+  const oceanGradient = ctx.createLinearGradient(0, canvas.height * 0.6, 0, canvas.height * 0.75)
+  oceanGradient.addColorStop(0, '#0099ff')
+  oceanGradient.addColorStop(1, '#006699')
+  ctx.fillStyle = oceanGradient
+  ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.15)
+
+  // Sand
+  const sandGradient = ctx.createLinearGradient(0, canvas.height * 0.75, 0, canvas.height)
+  sandGradient.addColorStop(0, '#f4e4c1')
+  sandGradient.addColorStop(1, '#e8d4a8')
+  ctx.fillStyle = sandGradient
+  ctx.fillRect(0, canvas.height * 0.75, canvas.width, canvas.height * 0.25)
+
+  // Background palm trees
+  for (let i = 0; i < 8; i++) {
+    const x = (i * canvas.width / 7) + Math.random() * 30
+    const y = canvas.height * 0.65 + Math.random() * 50
+    ctx.globalAlpha = 0.4
+    ctx.font = '25px Arial'
+    ctx.fillText('🌴', x, y)
+  }
+  ctx.globalAlpha = 1.0
+}
+
+function drawAutumnPark() {
+  // Sky gradient (golden hour)
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  skyGradient.addColorStop(0, '#ffd89b')
+  skyGradient.addColorStop(0.6, '#f9d976')
+  skyGradient.addColorStop(1, '#e8c85c')
+  ctx.fillStyle = skyGradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Background trees
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * canvas.width
+    const y = Math.random() * canvas.height * 0.6
+    ctx.globalAlpha = 0.3 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🌳', x, y)
+  }
+  ctx.globalAlpha = 1.0
+
+  // Ground
+  ctx.fillStyle = '#8b7355'
+  ctx.fillRect(0, canvas.height - 70, canvas.width, 70)
+
+  // Falling leaves
+  for (let i = 0; i < 12; i++) {
+    const x = Math.random() * canvas.width
+    const y = Math.random() * canvas.height
+    ctx.font = '15px Arial'
+    ctx.fillText('🍂', x, y)
+  }
+}
+
+function drawWinterScene() {
+  // Night sky gradient
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  skyGradient.addColorStop(0, '#0a1f3f')
+  skyGradient.addColorStop(1, '#1e3a5f')
+  ctx.fillStyle = skyGradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Background Christmas trees
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.4 + Math.random() * canvas.height * 0.3
+    ctx.globalAlpha = 0.3 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🎄', x, y)
+  }
+  ctx.globalAlpha = 1.0
+
+  // Snow ground
+  const snowGradient = ctx.createLinearGradient(0, canvas.height - 80, 0, canvas.height)
+  snowGradient.addColorStop(0, '#e8f4f8')
+  snowGradient.addColorStop(1, '#d0e8f0')
+  ctx.fillStyle = snowGradient
+  ctx.fillRect(0, canvas.height - 80, canvas.width, 80)
+
+  // Snowflakes
+  for (let i = 0; i < 20; i++) {
+    const x = Math.random() * canvas.width
+    const y = Math.random() * canvas.height
+    ctx.font = '12px Arial'
+    ctx.fillText('❄️', x, y)
+  }
+}
+
+function drawDesert() {
+  // Desert sky gradient
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 0.7)
+  skyGradient.addColorStop(0, '#ffd89b')
+  skyGradient.addColorStop(1, '#f4c07f')
+  ctx.fillStyle = skyGradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height * 0.7)
+
+  // Sand dunes
+  ctx.fillStyle = '#d4a574'
+  ctx.fillRect(0, canvas.height * 0.7, canvas.width, canvas.height * 0.3)
+
+  // Dune shadows
+  ctx.fillStyle = '#c49563'
+  ctx.beginPath()
+  ctx.ellipse(canvas.width * 0.3, canvas.height * 0.75, 80, 20, 0, 0, Math.PI * 2)
+  ctx.fill()
+
+  // Background cacti
+  for (let i = 0; i < 6; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.6 + Math.random() * 80
+    ctx.globalAlpha = 0.4 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🌵', x, y)
+  }
+  ctx.globalAlpha = 1.0
+}
+
+function drawBambooGarden() {
+  // Garden gradient background
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  gradient.addColorStop(0, '#3d5a4a')
+  gradient.addColorStop(1, '#2d4a3e')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Background bamboo stalks
+  for (let i = 0; i < 12; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.3 + Math.random() * canvas.height * 0.4
+    ctx.globalAlpha = 0.3 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🎋', x, y)
+  }
+  ctx.globalAlpha = 1.0
+
+  // Ground
+  ctx.fillStyle = '#1a2e25'
+  ctx.fillRect(0, canvas.height - 70, canvas.width, 70)
+}
+
+function drawTropicalGarden() {
+  // Vibrant pink/purple gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  gradient.addColorStop(0, '#ff9dc6')
+  gradient.addColorStop(1, '#ff6b9d')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Background flowers and plants
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.5 + Math.random() * canvas.height * 0.3
+    ctx.globalAlpha = 0.4 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🌺', x, y)
+  }
+  ctx.globalAlpha = 1.0
+
+  // Ground
+  ctx.fillStyle = '#c44569'
+  ctx.fillRect(0, canvas.height - 70, canvas.width, 70)
+}
+
+function drawSunflowerField() {
+  // Bright sky
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 0.6)
+  skyGradient.addColorStop(0, '#87ceeb')
+  skyGradient.addColorStop(1, '#b8d8f0')
+  ctx.fillStyle = skyGradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height * 0.6)
+
+  // Field
+  const fieldGradient = ctx.createLinearGradient(0, canvas.height * 0.6, 0, canvas.height)
+  fieldGradient.addColorStop(0, '#ffd89b')
+  fieldGradient.addColorStop(1, '#f4c97f')
+  ctx.fillStyle = fieldGradient
+  ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.4)
+
+  // Background sunflowers
+  for (let i = 0; i < 15; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.55 + Math.random() * canvas.height * 0.3
+    ctx.globalAlpha = 0.4 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🌻', x, y)
+  }
+  ctx.globalAlpha = 1.0
+}
+
+function drawRoseGarden() {
+  // Dark romantic gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  gradient.addColorStop(0, '#6b2c2c')
+  gradient.addColorStop(1, '#8b3a3a')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Background roses
+  for (let i = 0; i < 12; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.4 + Math.random() * canvas.height * 0.4
+    ctx.globalAlpha = 0.3 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🌹', x, y)
+  }
+  ctx.globalAlpha = 1.0
+
+  // Ground
+  ctx.fillStyle = '#4a1f1f'
+  ctx.fillRect(0, canvas.height - 70, canvas.width, 70)
+}
+
+function drawMushroomForest() {
+  // Dark mystical forest
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  gradient.addColorStop(0, '#2a1810')
+  gradient.addColorStop(1, '#3e2723')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Background mushrooms
+  for (let i = 0; i < 15; i++) {
+    const x = Math.random() * canvas.width
+    const y = canvas.height * 0.3 + Math.random() * canvas.height * 0.5
+    ctx.globalAlpha = 0.3 + Math.random() * 0.2
+    ctx.font = `${20 + Math.random() * 15}px Arial`
+    ctx.fillText('🍄', x, y)
+  }
+  ctx.globalAlpha = 1.0
+
+  // Dark ground
+  ctx.fillStyle = '#1a0f0a'
+  ctx.fillRect(0, canvas.height - 70, canvas.width, 70)
+}
+
 function gameLoop() {
   if (!gameRunning) return
 
   clearCanvas()
-  drawForestScenery()
+  drawLevelScenery()
   updatePlayer()
   updateObstacles()
   checkCollisions()
@@ -278,5 +555,5 @@ function gameLoop() {
 
 // Initial draw
 clearCanvas()
-drawForestScenery()
+drawLevelScenery()
 drawPlayer()
