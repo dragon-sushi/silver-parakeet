@@ -10,18 +10,18 @@ const gameOverElement = document.getElementById('gameOver')
 const startBtn = document.getElementById('startBtn')
 const restartBtn = document.getElementById('restartBtn')
 
-// Level colors
+// Level colors and emojis
 const levelColors = [
-  { fill: '#e74c3c', stroke: '#c0392b', name: 'Red' },      // Level 1
-  { fill: '#f39c12', stroke: '#d68910', name: 'Orange' },   // Level 2
-  { fill: '#f1c40f', stroke: '#d4ac0d', name: 'Yellow' },   // Level 3
-  { fill: '#2ecc71', stroke: '#27ae60', name: 'Green' },    // Level 4
-  { fill: '#3498db', stroke: '#2980b9', name: 'Blue' },     // Level 5
-  { fill: '#9b59b6', stroke: '#8e44ad', name: 'Purple' },   // Level 6
-  { fill: '#e91e63', stroke: '#c2185b', name: 'Pink' },     // Level 7
-  { fill: '#00bcd4', stroke: '#0097a7', name: 'Cyan' },     // Level 8
-  { fill: '#ff5722', stroke: '#e64a19', name: 'Deep Orange' }, // Level 9
-  { fill: '#607d8b', stroke: '#455a64', name: 'Blue Grey' }  // Level 10+
+  { fill: '#e74c3c', stroke: '#c0392b', name: 'Red', emoji: '🌲' },      // Level 1
+  { fill: '#f39c12', stroke: '#d68910', name: 'Orange', emoji: '🌴' },   // Level 2
+  { fill: '#f1c40f', stroke: '#d4ac0d', name: 'Yellow', emoji: '🌳' },   // Level 3
+  { fill: '#2ecc71', stroke: '#27ae60', name: 'Green', emoji: '🎄' },    // Level 4
+  { fill: '#3498db', stroke: '#2980b9', name: 'Blue', emoji: '🌵' },     // Level 5
+  { fill: '#9b59b6', stroke: '#8e44ad', name: 'Purple', emoji: '🎋' },   // Level 6
+  { fill: '#e91e63', stroke: '#c2185b', name: 'Pink', emoji: '🌺' },     // Level 7
+  { fill: '#00bcd4', stroke: '#0097a7', name: 'Cyan', emoji: '🌻' },     // Level 8
+  { fill: '#ff5722', stroke: '#e64a19', name: 'Deep Orange', emoji: '🌹' }, // Level 9
+  { fill: '#607d8b', stroke: '#455a64', name: 'Blue Grey', emoji: '🍄' }  // Level 10+
 ]
 
 // Game state
@@ -192,39 +192,9 @@ function drawPlayer() {
 
 function drawObstacles() {
   obstacles.forEach(obstacle => {
-    const centerX = obstacle.x + obstacle.width / 2
-    const treeHeight = obstacle.height
-    const trunkWidth = obstacle.width * 0.3
-    const foliageWidth = obstacle.width
-
-    // Draw trunk
-    ctx.fillStyle = '#8b4513'
-    ctx.fillRect(centerX - trunkWidth / 2, obstacle.y + treeHeight * 0.5, trunkWidth, treeHeight * 0.5)
-
-    // Draw foliage (tree top) using the level color
-    ctx.fillStyle = obstacle.color.fill
-    ctx.beginPath()
-    ctx.moveTo(centerX, obstacle.y)
-    ctx.lineTo(centerX - foliageWidth / 2, obstacle.y + treeHeight * 0.6)
-    ctx.lineTo(centerX + foliageWidth / 2, obstacle.y + treeHeight * 0.6)
-    ctx.closePath()
-    ctx.fill()
-
-    // Add foliage border
-    ctx.strokeStyle = obstacle.color.stroke
-    ctx.lineWidth = 2
-    ctx.stroke()
-
-    // Add second layer of foliage
-    ctx.fillStyle = obstacle.color.fill
-    ctx.beginPath()
-    ctx.moveTo(centerX, obstacle.y + treeHeight * 0.2)
-    ctx.lineTo(centerX - foliageWidth / 2.5, obstacle.y + treeHeight * 0.7)
-    ctx.lineTo(centerX + foliageWidth / 2.5, obstacle.y + treeHeight * 0.7)
-    ctx.closePath()
-    ctx.fill()
-    ctx.strokeStyle = obstacle.color.stroke
-    ctx.stroke()
+    // Draw tree emoji based on level
+    ctx.font = `${obstacle.width}px Arial`
+    ctx.fillText(obstacle.color.emoji, obstacle.x, obstacle.y + obstacle.height)
   })
 }
 
