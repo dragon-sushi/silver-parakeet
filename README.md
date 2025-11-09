@@ -1,5 +1,5 @@
-# silver-parakeet
-Online game built with Vite
+# Dragon Doge
+A fun dodge game built with Vite where you control a dragon and avoid emoji obstacles!
 
 ## Development
 

@@ -1,7 +1,7 @@
 {
-  "name": "silver-parakeet",
+  "name": "dragon-doge",
   "version": "1.0.0",
-  "description": "Online game",
+  "description": "Dragon Doge - Dodge game with emoji obstacles",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
