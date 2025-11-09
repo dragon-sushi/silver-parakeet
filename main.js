@@ -47,6 +47,23 @@ let obstacleSpeed = 4
 let obstacleFrequency = 50
 let frameCount = 0
 
+// Background forest trees (static scenery for Level 1)
+const backgroundTrees = []
+function initBackgroundTrees() {
+  backgroundTrees.length = 0
+  // Create background trees at different depths
+  for (let i = 0; i < 15; i++) {
+    backgroundTrees.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.7,
+      size: Math.random() * 20 + 15,
+      opacity: Math.random() * 0.3 + 0.2,
+      layer: Math.random() < 0.5 ? 'back' : 'middle'
+    })
+  }
+}
+initBackgroundTrees()
+
 // Controls
 const keys = {
   ArrowLeft: false,
@@ -204,10 +221,52 @@ function clearCanvas() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 
+function drawForestScenery() {
+  // Only draw forest scenery for Level 1 (pine forest)
+  if (level !== 1) return
+
+  // Draw gradient sky
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+  gradient.addColorStop(0, '#0d2818')
+  gradient.addColorStop(0.7, '#1a3a2e')
+  gradient.addColorStop(1, '#234a38')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Draw background trees (furthest layer)
+  backgroundTrees.forEach(tree => {
+    if (tree.layer === 'back') {
+      ctx.globalAlpha = tree.opacity
+      ctx.font = `${tree.size}px Arial`
+      ctx.fillText('🌲', tree.x, tree.y)
+    }
+  })
+
+  // Draw middle layer trees
+  backgroundTrees.forEach(tree => {
+    if (tree.layer === 'middle') {
+      ctx.globalAlpha = tree.opacity + 0.2
+      ctx.font = `${tree.size}px Arial`
+      ctx.fillText('🌲', tree.x, tree.y)
+    }
+  })
+
+  // Reset opacity
+  ctx.globalAlpha = 1.0
+
+  // Draw ground/forest floor
+  const groundGradient = ctx.createLinearGradient(0, canvas.height - 80, 0, canvas.height)
+  groundGradient.addColorStop(0, '#1a3a2e')
+  groundGradient.addColorStop(1, '#0f2419')
+  ctx.fillStyle = groundGradient
+  ctx.fillRect(0, canvas.height - 80, canvas.width, 80)
+}
+
 function gameLoop() {
   if (!gameRunning) return
 
   clearCanvas()
+  drawForestScenery()
   updatePlayer()
   updateObstacles()
   checkCollisions()
@@ -219,4 +278,5 @@ function gameLoop() {
 
 // Initial draw
 clearCanvas()
+drawForestScenery()
 drawPlayer()
