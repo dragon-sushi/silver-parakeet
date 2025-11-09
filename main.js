@@ -3,15 +3,31 @@ import './style.css'
 const canvas = document.getElementById('gameCanvas')
 const ctx = canvas.getContext('2d')
 const scoreElement = document.getElementById('score')
+const levelElement = document.getElementById('level')
 const highScoreElement = document.getElementById('highScore')
 const finalScoreElement = document.getElementById('finalScore')
 const gameOverElement = document.getElementById('gameOver')
 const startBtn = document.getElementById('startBtn')
 const restartBtn = document.getElementById('restartBtn')
 
+// Level colors
+const levelColors = [
+  { fill: '#e74c3c', stroke: '#c0392b', name: 'Red' },      // Level 1
+  { fill: '#f39c12', stroke: '#d68910', name: 'Orange' },   // Level 2
+  { fill: '#f1c40f', stroke: '#d4ac0d', name: 'Yellow' },   // Level 3
+  { fill: '#2ecc71', stroke: '#27ae60', name: 'Green' },    // Level 4
+  { fill: '#3498db', stroke: '#2980b9', name: 'Blue' },     // Level 5
+  { fill: '#9b59b6', stroke: '#8e44ad', name: 'Purple' },   // Level 6
+  { fill: '#e91e63', stroke: '#c2185b', name: 'Pink' },     // Level 7
+  { fill: '#00bcd4', stroke: '#0097a7', name: 'Cyan' },     // Level 8
+  { fill: '#ff5722', stroke: '#e64a19', name: 'Deep Orange' }, // Level 9
+  { fill: '#607d8b', stroke: '#455a64', name: 'Blue Grey' }  // Level 10+
+]
+
 // Game state
 let gameRunning = false
 let score = 0
+let level = 1
 let highScore = localStorage.getItem('highScore') || 0
 highScoreElement.textContent = highScore
 
@@ -21,14 +37,14 @@ const player = {
   y: canvas.height - 60,
   width: 40,
   height: 40,
-  speed: 5,
+  speed: 6,
   dx: 0
 }
 
 // Obstacles
 let obstacles = []
-let obstacleSpeed = 2
-let obstacleFrequency = 90
+let obstacleSpeed = 4
+let obstacleFrequency = 50
 let frameCount = 0
 
 // Controls
@@ -61,22 +77,33 @@ restartBtn.addEventListener('click', () => {
 function startGame() {
   gameRunning = true
   score = 0
+  level = 1
   obstacles = []
-  obstacleSpeed = 2
+  obstacleSpeed = 4
+  obstacleFrequency = 50
   frameCount = 0
   player.x = canvas.width / 2 - 20
+  scoreElement.textContent = score
+  levelElement.textContent = level
   startBtn.style.display = 'none'
   gameLoop()
 }
 
+function getCurrentLevelColor() {
+  const colorIndex = Math.min(level - 1, levelColors.length - 1)
+  return levelColors[colorIndex]
+}
+
 function createObstacle() {
-  const size = Math.random() * 30 + 20
+  const size = Math.random() * 35 + 25
+  const color = getCurrentLevelColor()
   obstacles.push({
     x: Math.random() * (canvas.width - size),
     y: -size,
     width: size,
     height: size,
-    speed: obstacleSpeed
+    speed: obstacleSpeed,
+    color: color
   })
 }
 
@@ -116,10 +143,14 @@ function updateObstacles() {
       score += 10
       scoreElement.textContent = score
 
-      // Increase difficulty
-      if (score % 100 === 0) {
-        obstacleSpeed += 0.5
-        if (obstacleFrequency > 30) obstacleFrequency -= 5
+      // Level up every 50 points
+      const newLevel = Math.floor(score / 50) + 1
+      if (newLevel > level) {
+        level = newLevel
+        levelElement.textContent = level
+        // Increase difficulty with each level
+        obstacleSpeed += 0.8
+        if (obstacleFrequency > 20) obstacleFrequency -= 3
       }
     }
   })
@@ -154,18 +185,18 @@ function gameOver() {
 }
 
 function drawPlayer() {
-  // Draw player as a parakeet emoji
+  // Draw player as a dragon emoji
   ctx.font = '40px Arial'
-  ctx.fillText('🦜', player.x, player.y + player.height)
+  ctx.fillText('🐉', player.x, player.y + player.height)
 }
 
 function drawObstacles() {
   obstacles.forEach(obstacle => {
-    ctx.fillStyle = '#e74c3c'
+    ctx.fillStyle = obstacle.color.fill
     ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
 
     // Add a border
-    ctx.strokeStyle = '#c0392b'
+    ctx.strokeStyle = obstacle.color.stroke
     ctx.lineWidth = 2
     ctx.strokeRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
   })
