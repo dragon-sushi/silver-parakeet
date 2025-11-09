@@ -185,172 +185,213 @@ function gameOver() {
 }
 
 function drawPlayer() {
-  // Draw a cute dragon
+  // Draw a RainWing dragon
   const x = player.x + player.width / 2
   const y = player.y + player.height / 2
 
   ctx.save()
 
-  // Shadow for depth
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
+  // Shadow
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'
   ctx.beginPath()
   ctx.ellipse(x, y + 18, 16, 4, 0, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Tail (behind body)
-  const tailGradient = ctx.createLinearGradient(x, y + 8, x + 12, y + 20)
-  tailGradient.addColorStop(0, '#7c5cff')
-  tailGradient.addColorStop(1, '#5a3fd9')
+  // Prehensile tail (RainWing feature)
+  const tailGradient = ctx.createLinearGradient(x, y + 8, x + 10, y + 22)
+  tailGradient.addColorStop(0, '#52c41a')
+  tailGradient.addColorStop(0.5, '#389e0d')
+  tailGradient.addColorStop(1, '#237804')
   ctx.fillStyle = tailGradient
   ctx.beginPath()
   ctx.moveTo(x, y + 8)
-  ctx.quadraticCurveTo(x + 8, y + 10, x + 10, y + 18)
-  ctx.lineTo(x + 8, y + 17)
-  ctx.quadraticCurveTo(x + 6, y + 11, x - 2, y + 10)
+  ctx.quadraticCurveTo(x + 10, y + 12, x + 8, y + 20)
+  ctx.lineTo(x + 6, y + 19)
+  ctx.quadraticCurveTo(x + 8, y + 13, x - 2, y + 10)
   ctx.closePath()
   ctx.fill()
 
-  // Tail sparkle
-  ctx.fillStyle = '#ffd700'
+  // Tail stripes (tropical pattern)
+  ctx.strokeStyle = '#95de64'
+  ctx.lineWidth = 1.5
   ctx.beginPath()
-  ctx.moveTo(x + 10, y + 18)
-  ctx.lineTo(x + 13, y + 19)
-  ctx.lineTo(x + 11, y + 21)
-  ctx.lineTo(x + 8, y + 20)
-  ctx.closePath()
-  ctx.fill()
+  ctx.moveTo(x + 3, y + 14)
+  ctx.lineTo(x + 5, y + 13)
+  ctx.stroke()
 
-  // Wings (behind body)
-  const wingGradient = ctx.createRadialGradient(x - 8, y - 2, 2, x - 8, y - 2, 12)
-  wingGradient.addColorStop(0, 'rgba(138, 108, 255, 0.8)')
-  wingGradient.addColorStop(1, 'rgba(108, 75, 230, 0.4)')
+  // Large colorful wings (RainWings have beautiful wings)
+  const wingGradient = ctx.createRadialGradient(x - 8, y - 2, 0, x - 8, y - 2, 14)
+  wingGradient.addColorStop(0, 'rgba(165, 220, 134, 0.9)')
+  wingGradient.addColorStop(0.3, 'rgba(82, 196, 26, 0.85)')
+  wingGradient.addColorStop(0.7, 'rgba(56, 158, 13, 0.7)')
+  wingGradient.addColorStop(1, 'rgba(35, 120, 4, 0.5)')
+
+  // Left wing
   ctx.fillStyle = wingGradient
   ctx.beginPath()
-  ctx.ellipse(x - 10, y - 2, 8, 14, -Math.PI / 6, 0, 2 * Math.PI)
+  ctx.ellipse(x - 11, y - 2, 9, 15, -Math.PI / 5, 0, 2 * Math.PI)
   ctx.fill()
+  // Wing membrane detail
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
+  ctx.lineWidth = 1
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath()
+    ctx.moveTo(x - 11, y - 8 + i * 5)
+    ctx.lineTo(x - 15, y - 5 + i * 5)
+    ctx.stroke()
+  }
+
+  // Right wing
   ctx.fillStyle = wingGradient
   ctx.beginPath()
-  ctx.ellipse(x + 10, y - 2, 8, 14, Math.PI / 6, 0, 2 * Math.PI)
+  ctx.ellipse(x + 11, y - 2, 9, 15, Math.PI / 5, 0, 2 * Math.PI)
   ctx.fill()
+  // Wing membrane detail
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath()
+    ctx.moveTo(x + 11, y - 8 + i * 5)
+    ctx.lineTo(x + 15, y - 5 + i * 5)
+    ctx.stroke()
+  }
 
-  // Main body
-  const bodyGradient = ctx.createRadialGradient(x, y - 3, 0, x, y, 14)
-  bodyGradient.addColorStop(0, '#9d7fff')
-  bodyGradient.addColorStop(0.7, '#7c5cff')
-  bodyGradient.addColorStop(1, '#6347d9')
+  // Sleek body (RainWings are more slender)
+  const bodyGradient = ctx.createRadialGradient(x, y - 2, 0, x, y, 13)
+  bodyGradient.addColorStop(0, '#73d13d')
+  bodyGradient.addColorStop(0.6, '#52c41a')
+  bodyGradient.addColorStop(1, '#389e0d')
   ctx.fillStyle = bodyGradient
   ctx.beginPath()
-  ctx.ellipse(x, y, 14, 13, 0, 0, 2 * Math.PI)
+  ctx.ellipse(x, y, 13, 12, 0, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Belly
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
+  // Scale pattern on body
+  ctx.fillStyle = 'rgba(165, 220, 134, 0.3)'
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 2; j++) {
+      ctx.beginPath()
+      ctx.arc(x - 6 + i * 6, y - 3 + j * 6, 2, 0, Math.PI)
+      ctx.fill()
+    }
+  }
+
+  // Lighter underbelly
+  ctx.fillStyle = 'rgba(245, 255, 230, 0.4)'
   ctx.beginPath()
-  ctx.ellipse(x, y + 3, 9, 8, 0, 0, 2 * Math.PI)
+  ctx.ellipse(x, y + 4, 8, 7, 0, 0, 2 * Math.PI)
   ctx.fill()
 
   // Head
-  const headGradient = ctx.createRadialGradient(x, y - 12, 0, x, y - 12, 10)
-  headGradient.addColorStop(0, '#9d7fff')
-  headGradient.addColorStop(0.8, '#7c5cff')
+  const headGradient = ctx.createRadialGradient(x, y - 12, 0, x, y - 12, 9)
+  headGradient.addColorStop(0, '#95de64')
+  headGradient.addColorStop(0.7, '#52c41a')
+  headGradient.addColorStop(1, '#389e0d')
   ctx.fillStyle = headGradient
   ctx.beginPath()
-  ctx.ellipse(x, y - 12, 11, 10, 0, 0, 2 * Math.PI)
+  ctx.ellipse(x, y - 12, 10, 9, 0, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // RainWing neck frill (signature feature!)
+  ctx.fillStyle = 'rgba(255, 215, 0, 0.7)'
+  // Left frill
+  ctx.beginPath()
+  ctx.ellipse(x - 9, y - 11, 4, 7, -Math.PI / 4, 0, 2 * Math.PI)
+  ctx.fill()
+  // Right frill
+  ctx.beginPath()
+  ctx.ellipse(x + 9, y - 11, 4, 7, Math.PI / 4, 0, 2 * Math.PI)
+  ctx.fill()
+  // Frill highlights
+  ctx.fillStyle = 'rgba(255, 140, 0, 0.5)'
+  ctx.beginPath()
+  ctx.ellipse(x - 9, y - 11, 2, 4, -Math.PI / 4, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.ellipse(x + 9, y - 11, 2, 4, Math.PI / 4, 0, 2 * Math.PI)
   ctx.fill()
 
   // Snout
-  ctx.fillStyle = '#b39dff'
+  ctx.fillStyle = '#95de64'
   ctx.beginPath()
-  ctx.ellipse(x, y - 7, 6, 4, 0, 0, 2 * Math.PI)
+  ctx.ellipse(x, y - 7, 6, 3, 0, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Cute horns
-  const hornGradient = ctx.createLinearGradient(x, y - 20, x, y - 16)
-  hornGradient.addColorStop(0, '#ffd700')
-  hornGradient.addColorStop(1, '#ffed4e')
-  ctx.fillStyle = hornGradient
-  // Left horn
+  // Curved horns (small and elegant)
+  ctx.strokeStyle = '#fadb14'
+  ctx.lineWidth = 2
+  ctx.lineCap = 'round'
   ctx.beginPath()
-  ctx.moveTo(x - 6, y - 17)
-  ctx.lineTo(x - 5, y - 23)
-  ctx.lineTo(x - 3, y - 17)
-  ctx.closePath()
-  ctx.fill()
-  // Right horn
+  ctx.moveTo(x - 5, y - 17)
+  ctx.quadraticCurveTo(x - 6, y - 20, x - 4, y - 22)
+  ctx.stroke()
   ctx.beginPath()
-  ctx.moveTo(x + 3, y - 17)
-  ctx.lineTo(x + 5, y - 23)
-  ctx.lineTo(x + 6, y - 17)
-  ctx.closePath()
-  ctx.fill()
+  ctx.moveTo(x + 5, y - 17)
+  ctx.quadraticCurveTo(x + 6, y - 20, x + 4, y - 22)
+  ctx.stroke()
 
-  // Eyes (bigger and cuter)
+  // Large expressive eyes
   ctx.fillStyle = '#ffffff'
   ctx.beginPath()
-  ctx.arc(x - 4, y - 13, 3.5, 0, 2 * Math.PI)
+  ctx.arc(x - 4, y - 12, 3.5, 0, 2 * Math.PI)
   ctx.fill()
   ctx.beginPath()
-  ctx.arc(x + 4, y - 13, 3.5, 0, 2 * Math.PI)
+  ctx.arc(x + 4, y - 12, 3.5, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Pupils with sparkle
-  ctx.fillStyle = '#1a1a1a'
+  // Green pupils (RainWing style)
+  ctx.fillStyle = '#135200'
   ctx.beginPath()
-  ctx.arc(x - 4, y - 12.5, 2, 0, 2 * Math.PI)
+  ctx.arc(x - 4, y - 11.5, 2, 0, 2 * Math.PI)
   ctx.fill()
   ctx.beginPath()
-  ctx.arc(x + 4, y - 12.5, 2, 0, 2 * Math.PI)
+  ctx.arc(x + 4, y - 11.5, 2, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Eye sparkles
+  // Eye highlights
   ctx.fillStyle = '#ffffff'
   ctx.beginPath()
-  ctx.arc(x - 3, y - 14, 1, 0, 2 * Math.PI)
+  ctx.arc(x - 3, y - 13, 1.2, 0, 2 * Math.PI)
   ctx.fill()
   ctx.beginPath()
-  ctx.arc(x + 5, y - 14, 1, 0, 2 * Math.PI)
+  ctx.arc(x + 5, y - 13, 1.2, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Cute smile
-  ctx.strokeStyle = '#5a3fd9'
+  // Friendly smile
+  ctx.strokeStyle = '#237804'
   ctx.lineWidth = 1.5
   ctx.lineCap = 'round'
   ctx.beginPath()
-  ctx.arc(x, y - 6, 3, 0.2, Math.PI - 0.2)
+  ctx.arc(x, y - 6, 2.5, 0.3, Math.PI - 0.3)
   ctx.stroke()
 
-  // Rosy cheeks
-  ctx.fillStyle = 'rgba(255, 150, 200, 0.4)'
+  // Nostrils
+  ctx.fillStyle = '#237804'
   ctx.beginPath()
-  ctx.arc(x - 8, y - 9, 3, 0, 2 * Math.PI)
+  ctx.arc(x - 2, y - 7, 0.8, 0, 2 * Math.PI)
   ctx.fill()
   ctx.beginPath()
-  ctx.arc(x + 8, y - 9, 3, 0, 2 * Math.PI)
-  ctx.fill()
-
-  // Cute little arms
-  ctx.fillStyle = '#7c5cff'
-  ctx.beginPath()
-  ctx.arc(x - 12, y + 3, 3, 0, 2 * Math.PI)
-  ctx.fill()
-  ctx.beginPath()
-  ctx.arc(x + 12, y + 3, 3, 0, 2 * Math.PI)
+  ctx.arc(x + 2, y - 7, 0.8, 0, 2 * Math.PI)
   ctx.fill()
 
-  // Sparkles around dragon
-  ctx.fillStyle = 'rgba(255, 215, 0, 0.6)'
-  const sparkles = [
-    {x: x - 16, y: y - 8},
-    {x: x + 16, y: y - 8},
-    {x: x, y: y - 22}
-  ]
-  sparkles.forEach(sparkle => {
-    ctx.beginPath()
-    ctx.arc(sparkle.x, sparkle.y, 1.5, 0, 2 * Math.PI)
-    ctx.fill()
-    ctx.fillRect(sparkle.x - 0.5, sparkle.y - 3, 1, 6)
-    ctx.fillRect(sparkle.x - 3, sparkle.y - 0.5, 6, 1)
-  })
+  // Small arms
+  ctx.fillStyle = '#52c41a'
+  ctx.beginPath()
+  ctx.arc(x - 11, y + 2, 2.5, 0, 2 * Math.PI)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(x + 11, y + 2, 2.5, 0, 2 * Math.PI)
+  ctx.fill()
+
+  // Claws
+  ctx.strokeStyle = '#fadb14'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(x - 11, y + 3)
+  ctx.lineTo(x - 12, y + 5)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo(x + 11, y + 3)
+  ctx.lineTo(x + 12, y + 5)
+  ctx.stroke()
 
   ctx.restore()
 }
