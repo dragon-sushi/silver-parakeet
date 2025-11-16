@@ -47,13 +47,27 @@ let obstacleSpeed = 4
 let obstacleFrequency = 50
 let frameCount = 0
 
-// Background forest trees (static scenery for Level 1)
-const backgroundTrees = []
-function initBackgroundTrees() {
-  backgroundTrees.length = 0
-  // Create background trees at different depths
+// Static background elements for all levels
+const backgroundElements = {
+  pineForest: [],
+  palmTrees: [],
+  autumnTrees: [],
+  autumnLeaves: [],
+  christmasTrees: [],
+  snowflakes: [],
+  cacti: [],
+  bambooStalks: [],
+  hibiscusFlowers: [],
+  sunflowers: [],
+  roses: [],
+  mushrooms: []
+}
+
+function initBackgroundElements() {
+  // Level 1: Pine Forest
+  backgroundElements.pineForest = []
   for (let i = 0; i < 15; i++) {
-    backgroundTrees.push({
+    backgroundElements.pineForest.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height * 0.7,
       size: Math.random() * 20 + 15,
@@ -61,8 +75,119 @@ function initBackgroundTrees() {
       layer: Math.random() < 0.5 ? 'back' : 'middle'
     })
   }
+
+  // Level 2: Palm Trees
+  backgroundElements.palmTrees = []
+  for (let i = 0; i < 8; i++) {
+    backgroundElements.palmTrees.push({
+      x: (i * canvas.width / 7) + Math.random() * 30,
+      y: canvas.height * 0.65 + Math.random() * 50
+    })
+  }
+
+  // Level 3: Autumn Trees & Leaves
+  backgroundElements.autumnTrees = []
+  for (let i = 0; i < 10; i++) {
+    backgroundElements.autumnTrees.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.6,
+      size: 20 + Math.random() * 15,
+      opacity: 0.3 + Math.random() * 0.2
+    })
+  }
+  backgroundElements.autumnLeaves = []
+  for (let i = 0; i < 12; i++) {
+    backgroundElements.autumnLeaves.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height
+    })
+  }
+
+  // Level 4: Christmas Trees & Snowflakes
+  backgroundElements.christmasTrees = []
+  for (let i = 0; i < 10; i++) {
+    backgroundElements.christmasTrees.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.4 + Math.random() * canvas.height * 0.3,
+      size: 20 + Math.random() * 15,
+      opacity: 0.3 + Math.random() * 0.2
+    })
+  }
+  backgroundElements.snowflakes = []
+  for (let i = 0; i < 20; i++) {
+    backgroundElements.snowflakes.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height
+    })
+  }
+
+  // Level 5: Cacti
+  backgroundElements.cacti = []
+  for (let i = 0; i < 6; i++) {
+    backgroundElements.cacti.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.6 + Math.random() * 80,
+      size: 20 + Math.random() * 15,
+      opacity: 0.4 + Math.random() * 0.2
+    })
+  }
+
+  // Level 6: Bamboo Stalks
+  backgroundElements.bambooStalks = []
+  for (let i = 0; i < 12; i++) {
+    backgroundElements.bambooStalks.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.3 + Math.random() * canvas.height * 0.4,
+      size: 20 + Math.random() * 15,
+      opacity: 0.3 + Math.random() * 0.2
+    })
+  }
+
+  // Level 7: Hibiscus Flowers
+  backgroundElements.hibiscusFlowers = []
+  for (let i = 0; i < 10; i++) {
+    backgroundElements.hibiscusFlowers.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.5 + Math.random() * canvas.height * 0.3,
+      size: 20 + Math.random() * 15,
+      opacity: 0.4 + Math.random() * 0.2
+    })
+  }
+
+  // Level 8: Sunflowers
+  backgroundElements.sunflowers = []
+  for (let i = 0; i < 15; i++) {
+    backgroundElements.sunflowers.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.55 + Math.random() * canvas.height * 0.3,
+      size: 20 + Math.random() * 15,
+      opacity: 0.4 + Math.random() * 0.2
+    })
+  }
+
+  // Level 9: Roses
+  backgroundElements.roses = []
+  for (let i = 0; i < 12; i++) {
+    backgroundElements.roses.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.4 + Math.random() * canvas.height * 0.4,
+      size: 20 + Math.random() * 15,
+      opacity: 0.3 + Math.random() * 0.2
+    })
+  }
+
+  // Level 10+: Mushrooms
+  backgroundElements.mushrooms = []
+  for (let i = 0; i < 15; i++) {
+    backgroundElements.mushrooms.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height * 0.3 + Math.random() * canvas.height * 0.5,
+      size: 20 + Math.random() * 15,
+      opacity: 0.3 + Math.random() * 0.2
+    })
+  }
 }
-initBackgroundTrees()
+initBackgroundElements()
 
 // Controls
 const keys = {
@@ -266,7 +391,7 @@ function drawPineForest() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Draw background trees (furthest layer)
-  backgroundTrees.forEach(tree => {
+  backgroundElements.pineForest.forEach(tree => {
     if (tree.layer === 'back') {
       ctx.globalAlpha = tree.opacity
       ctx.font = `${tree.size}px Arial`
@@ -275,7 +400,7 @@ function drawPineForest() {
   })
 
   // Draw middle layer trees
-  backgroundTrees.forEach(tree => {
+  backgroundElements.pineForest.forEach(tree => {
     if (tree.layer === 'middle') {
       ctx.globalAlpha = tree.opacity + 0.2
       ctx.font = `${tree.size}px Arial`
@@ -316,13 +441,11 @@ function drawTropicalBeach() {
   ctx.fillRect(0, canvas.height * 0.75, canvas.width, canvas.height * 0.25)
 
   // Background palm trees
-  for (let i = 0; i < 8; i++) {
-    const x = (i * canvas.width / 7) + Math.random() * 30
-    const y = canvas.height * 0.65 + Math.random() * 50
-    ctx.globalAlpha = 0.4
-    ctx.font = '25px Arial'
-    ctx.fillText('🌴', x, y)
-  }
+  ctx.globalAlpha = 0.4
+  ctx.font = '25px Arial'
+  backgroundElements.palmTrees.forEach(palm => {
+    ctx.fillText('🌴', palm.x, palm.y)
+  })
   ctx.globalAlpha = 1.0
 }
 
@@ -336,13 +459,11 @@ function drawAutumnPark() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Background trees
-  for (let i = 0; i < 10; i++) {
-    const x = Math.random() * canvas.width
-    const y = Math.random() * canvas.height * 0.6
-    ctx.globalAlpha = 0.3 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🌳', x, y)
-  }
+  backgroundElements.autumnTrees.forEach(tree => {
+    ctx.globalAlpha = tree.opacity
+    ctx.font = `${tree.size}px Arial`
+    ctx.fillText('🌳', tree.x, tree.y)
+  })
   ctx.globalAlpha = 1.0
 
   // Ground
@@ -350,12 +471,10 @@ function drawAutumnPark() {
   ctx.fillRect(0, canvas.height - 70, canvas.width, 70)
 
   // Falling leaves
-  for (let i = 0; i < 12; i++) {
-    const x = Math.random() * canvas.width
-    const y = Math.random() * canvas.height
-    ctx.font = '15px Arial'
-    ctx.fillText('🍂', x, y)
-  }
+  ctx.font = '15px Arial'
+  backgroundElements.autumnLeaves.forEach(leaf => {
+    ctx.fillText('🍂', leaf.x, leaf.y)
+  })
 }
 
 function drawWinterScene() {
@@ -367,13 +486,11 @@ function drawWinterScene() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Background Christmas trees
-  for (let i = 0; i < 10; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.4 + Math.random() * canvas.height * 0.3
-    ctx.globalAlpha = 0.3 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🎄', x, y)
-  }
+  backgroundElements.christmasTrees.forEach(tree => {
+    ctx.globalAlpha = tree.opacity
+    ctx.font = `${tree.size}px Arial`
+    ctx.fillText('🎄', tree.x, tree.y)
+  })
   ctx.globalAlpha = 1.0
 
   // Snow ground
@@ -384,12 +501,10 @@ function drawWinterScene() {
   ctx.fillRect(0, canvas.height - 80, canvas.width, 80)
 
   // Snowflakes
-  for (let i = 0; i < 20; i++) {
-    const x = Math.random() * canvas.width
-    const y = Math.random() * canvas.height
-    ctx.font = '12px Arial'
-    ctx.fillText('❄️', x, y)
-  }
+  ctx.font = '12px Arial'
+  backgroundElements.snowflakes.forEach(snowflake => {
+    ctx.fillText('❄️', snowflake.x, snowflake.y)
+  })
 }
 
 function drawDesert() {
@@ -411,13 +526,11 @@ function drawDesert() {
   ctx.fill()
 
   // Background cacti
-  for (let i = 0; i < 6; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.6 + Math.random() * 80
-    ctx.globalAlpha = 0.4 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🌵', x, y)
-  }
+  backgroundElements.cacti.forEach(cactus => {
+    ctx.globalAlpha = cactus.opacity
+    ctx.font = `${cactus.size}px Arial`
+    ctx.fillText('🌵', cactus.x, cactus.y)
+  })
   ctx.globalAlpha = 1.0
 }
 
@@ -430,13 +543,11 @@ function drawBambooGarden() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Background bamboo stalks
-  for (let i = 0; i < 12; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.3 + Math.random() * canvas.height * 0.4
-    ctx.globalAlpha = 0.3 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🎋', x, y)
-  }
+  backgroundElements.bambooStalks.forEach(bamboo => {
+    ctx.globalAlpha = bamboo.opacity
+    ctx.font = `${bamboo.size}px Arial`
+    ctx.fillText('🎋', bamboo.x, bamboo.y)
+  })
   ctx.globalAlpha = 1.0
 
   // Ground
@@ -453,13 +564,11 @@ function drawTropicalGarden() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Background flowers and plants
-  for (let i = 0; i < 10; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.5 + Math.random() * canvas.height * 0.3
-    ctx.globalAlpha = 0.4 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🌺', x, y)
-  }
+  backgroundElements.hibiscusFlowers.forEach(flower => {
+    ctx.globalAlpha = flower.opacity
+    ctx.font = `${flower.size}px Arial`
+    ctx.fillText('🌺', flower.x, flower.y)
+  })
   ctx.globalAlpha = 1.0
 
   // Ground
@@ -483,13 +592,11 @@ function drawSunflowerField() {
   ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.4)
 
   // Background sunflowers
-  for (let i = 0; i < 15; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.55 + Math.random() * canvas.height * 0.3
-    ctx.globalAlpha = 0.4 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🌻', x, y)
-  }
+  backgroundElements.sunflowers.forEach(sunflower => {
+    ctx.globalAlpha = sunflower.opacity
+    ctx.font = `${sunflower.size}px Arial`
+    ctx.fillText('🌻', sunflower.x, sunflower.y)
+  })
   ctx.globalAlpha = 1.0
 }
 
@@ -502,13 +609,11 @@ function drawRoseGarden() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Background roses
-  for (let i = 0; i < 12; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.4 + Math.random() * canvas.height * 0.4
-    ctx.globalAlpha = 0.3 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🌹', x, y)
-  }
+  backgroundElements.roses.forEach(rose => {
+    ctx.globalAlpha = rose.opacity
+    ctx.font = `${rose.size}px Arial`
+    ctx.fillText('🌹', rose.x, rose.y)
+  })
   ctx.globalAlpha = 1.0
 
   // Ground
@@ -525,13 +630,11 @@ function drawMushroomForest() {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // Background mushrooms
-  for (let i = 0; i < 15; i++) {
-    const x = Math.random() * canvas.width
-    const y = canvas.height * 0.3 + Math.random() * canvas.height * 0.5
-    ctx.globalAlpha = 0.3 + Math.random() * 0.2
-    ctx.font = `${20 + Math.random() * 15}px Arial`
-    ctx.fillText('🍄', x, y)
-  }
+  backgroundElements.mushrooms.forEach(mushroom => {
+    ctx.globalAlpha = mushroom.opacity
+    ctx.font = `${mushroom.size}px Arial`
+    ctx.fillText('🍄', mushroom.x, mushroom.y)
+  })
   ctx.globalAlpha = 1.0
 
   // Dark ground
