@@ -645,7 +645,6 @@ function drawMushroomForest() {
 function gameLoop() {
   if (!gameRunning) return
 
-  clearCanvas()
   drawLevelScenery()
   updatePlayer()
   updateObstacles()
@@ -657,6 +656,5 @@ function gameLoop() {
 }
 
 // Initial draw
-clearCanvas()
 drawLevelScenery()
 drawPlayer()
